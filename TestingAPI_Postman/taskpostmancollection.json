@@ -1,0 +1,390 @@
+{
+    "info": {
+        "_postman_id": "12b69405-6031-423b-b080-71aa0d998855",
+        "name": "Lesson 18_Vozmitel",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "34768124"
+    },
+    "item": [
+        {
+            "name": "User creation with valid data",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Chack that required user name is PaulinaDoe\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.name).to.eql(\"PaulinaDoe\");",
+                            "});",
+                            "pm.test(\"Chack that optional user city is Kyiv\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.city).to.eql(\"Kyiv\");",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"PaulinaDoe\",\n  \"age\": \"37\",\n  \"gender\": \"female\",\n  \"city\": \"Kyiv\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "User creation with invalid data",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 400\", function () {",
+                            "    pm.response.to.have.status(400);",
+                            "});",
+                            "pm.test(\"Response time is less than 2000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"name\": \"PaulinaDoe\",\n  \"age\": \"\",\n  \"gender\": \"\",\n  \"city\": \"Kyiv\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Check that the user has been created by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response time is less than 3000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users?id={{User_ID_Val}}",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{User_ID_Val}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Check for changes in one of the fields valid",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Chack that user has been changed city is Lviv\", function () {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.city).to.eql(\"Lviv\");",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"age\": 37,\n    \"city\": \"Lviv\",\n    \"gender\": \"female\",\n    \"name\": \"PaulinaDoe\",\n    \"id\": \"add23e42-96ce-4387-b986-6cd167a8ad47\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Check for changes in one of the fields invalid",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 400\", function () {",
+                            "    pm.response.to.have.status(400);",
+                            "});",
+                            "pm.test(\"Response time is less than 2000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"age\": 37,\n    \"city\": \"Lviv\",\n    \"gender\": \"female\",\n    \"name\": \"PaulinaDoe\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete user by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response time is less than 3000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{User_api_url}}/users?id={{User_ID_Val}}",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{User_ID_Val}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Delete user by invalid ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response time is less than 3000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(3000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{User_api_url}}/users?id={{User_Inv_ID}}",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{User_Inv_ID}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Check that user is deleted by ID",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Status code is 200\", function () {",
+                            "    pm.response.to.have.status(200);",
+                            "});",
+                            "pm.test(\"Response time is less than 2000ms\", function () {",
+                            "    pm.expect(pm.response.responseTime).to.be.below(2000);",
+                            "});"
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{User_api_url}}/users?id={{User_ID_Val}}",
+                    "host": [
+                        "{{User_api_url}}"
+                    ],
+                    "path": [
+                        "users"
+                    ],
+                    "query": [
+                        {
+                            "key": "id",
+                            "value": "{{User_ID_Val}}"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "User_api_url",
+            "value": "https://em.staging.api.onereach.ai/http/1b3bebb7-e882-4f1e-a74b-ee381bfa69d6"
+        },
+        {
+            "key": "User_ID",
+            "value": "95ff07f5-183e-4613-bdb3-ee7640f4f8f5"
+        },
+        {
+            "key": "User_ID_Val",
+            "value": "df4ec3d0-daa8-4e06-aa82-f42439344da4"
+        },
+        {
+            "key": "User_Inv_ID",
+            "value": "0fdf4e80-e956-4310-831f-3bf9de96e"
+        }
+    ]
+}
